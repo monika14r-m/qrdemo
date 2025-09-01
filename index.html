@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Code Awareness Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+    h1 { color: #2c3e50; }
+    .info-box { margin: 20px auto; padding: 20px; border: 1px solid #ccc; width: 60%; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🔍 QR Code Awareness Demo</h1>
+  <p>By just scanning this QR, I can see...</p>
+  <div id="info" class="info-box">Loading details...</div>
+
+  <script>
+    async function fetchIP() {
+      try {
+        // Use free API to get IP + location
+        let res = await fetch("https://ipapi.co/json/");
+        let data = await res.json();
+
+        // Collect browser/device info
+        let ua = navigator.userAgent;
+        let screenRes = `${window.screen.width}x${window.screen.height}`;
+
+        document.getElementById("info").innerHTML = `
+          <b>IP Address:</b> ${data.ip} <br>
+          <b>City:</b> ${data.city}, ${data.region}, ${data.country_name} <br>
+          <b>ISP:</b> ${data.org} <br><br>
+          <b>Device Info:</b> ${ua} <br>
+          <b>Screen Resolution:</b> ${screenRes} <br>
+        `;
+      } catch (e) {
+        document.getElementById("info").innerText = "Could not fetch details.";
+      }
+    }
+    fetchIP();
+  </script>
+</body>
+</html>
